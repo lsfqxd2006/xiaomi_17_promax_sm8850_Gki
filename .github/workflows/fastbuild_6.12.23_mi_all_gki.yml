@@ -302,10 +302,10 @@ jobs:
             echo 'CONFIG_KSU_FULL_NAME_FORMAT="%TAG_NAME%-%COMMIT_SHA%@LiuSF"' >> ./common/arch/arm64/configs/gki_defconfig
             cd ./KernelSU
             # 最终 4 处精准修改：只跳过签名校验，保留所有安全/单UID校验
-            sed -i 's|bool result = check_block(fp, &size4, &pos, &offset, &matched_index);|bool result = true;|' kernel/manager/apk_sign.c
-            sed -i 's|if (v2_signing_blocks != 1) {|if (0) {|' kernel/manager/apk_sign.c
-            sed -i 's|if (has_v1_signing) {|if (0) {|' kernel/manager/apk_sign.c
-            sed -i 's|if (v3_signing_exist || v3_1_signing_exist) {|if (0) {|' kernel/manager/apk_sign.c
+            sed -i 's?bool result = check_block(fp, &size4, &pos, &offset, &matched_index);?bool result = true;?' kernel/manager/apk_sign.c
+            sed -i 's?if (v2_signing_blocks != 1) {?if (0) {?' kernel/manager/apk_sign.c
+            sed -i 's?if (has_v1_signing) {?if (0) {?' kernel/manager/apk_sign.c
+            sed -i 's?if (v3_signing_exist || v3_1_signing_exist) {?if (0) {?' kernel/manager/apk_sign.c
             # 生成自定义版本号（基于提交计数）, 失败时使用 114514
             KSU_VERSION=$(expr $(git rev-list --count main) + 30700 2>/dev/null || echo 114514)
             # 存储版本号到 GitHub 环境变量
